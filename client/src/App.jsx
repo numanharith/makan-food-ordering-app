@@ -1,32 +1,25 @@
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container } from 'reactstrap';
+import { Container } from 'react-bootstrap'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import './App.css'
 
 // Components
-import Header from './components/Header';
-import FoodList from './components/FoodList';
-import AddFoodForm from './components/AddFoodForm';
+import Header from './components/Header'
+import Footer from './components/Footer'
+import HomePage from './components/HomePage'
+import FoodPage from './components/FoodPage'
 
-import { Provider } from 'react-redux';
-import store from './store';
-import { loadRestaurantUser } from './actions/restaurantAuthActions';
-import { useEffect } from 'react';
-
-function App() {
-  useEffect(() => {
-    store.dispatch(loadRestaurantUser());
-  }, []);
-
+const App = () => {
   return (
-    <Provider store={store}>
-      <div className='App'>
-        <Header />
+    <Router>
+      <Header />
+      <main className='py-3'>
         <Container>
-          <AddFoodForm />
-          <FoodList />
+          <Route path='/' component={HomePage} exact/>
+          <Route path='/foods/:foodId' component={FoodPage} />
         </Container>
-      </div>
-    </Provider>
+      </main>
+      <Footer />
+    </Router>
   );
 }
 

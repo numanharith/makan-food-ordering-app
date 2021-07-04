@@ -15,7 +15,7 @@ mongoose
   .catch((err) => console.log(err));
 
 // Routes
-app.use('/api/food', require('./routers/foodRoutes'));
+app.use('/api/foods', require('./routers/foodRoutes'));
 app.use('/api/restaurant', require('./routers/restaurantRoutes'));
 app.use('/api/restaurantAuth', require('./routers/restaurantAuthRoutes'));
 

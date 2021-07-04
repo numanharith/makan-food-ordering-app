@@ -5,8 +5,6 @@ import { getFoods, deleteFood } from '../actions/foodActions';
 import PropTypes from 'prop-types';
 
 const FoodList = () => {
-  const [foods, setFoods] = useState();
-
   useEffect(() => {
     getFoods();
   }, []);
