@@ -1,20 +1,20 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { addFood } from '../actions/foodActions';
+import { editFood } from '../actions/foodActions';
 
 // Components
 import Message from './Message';
 import Loader from './Loader';
 
-const AddFoodModal = () => {
+const EditFoodModal = ({ food }) => {
   const [show, setShow] = useState(false);
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState();
+  const [name, setName] = useState(food.name);
+  const [price, setPrice] = useState(food.price);
 
   const dispatch = useDispatch();
-  const foodAdd = useSelector((state) => state.foodAdd);
-  const { loading, error, success } = foodAdd;
+  const foodEdit = useSelector((state) => state.foodEdit);
+  const { loading, error, success } = foodEdit;
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -25,17 +25,15 @@ const AddFoodModal = () => {
     }
   }, [success]);
 
-  const addFoodHandler = (e) => {
+  const editFoodHandler = (e) => {
     e.preventDefault();
-    dispatch(addFood(name, price));
-    setName('')
-    setPrice()
+    dispatch(editFood({ _id: food._id, name, price }));
   };
 
   return (
     <Fragment>
-      <Button onClick={handleShow}>
-        <i className='fas fa-plus'></i> Add food
+      <Button variant='light' className='btn-sm' onClick={handleShow}>
+        <i className='fas fa-edit'></i>
       </Button>
       <Modal show={show} onHide={handleClose} backdrop='static' keyboard={false}>
         <Modal.Header closeButton>
@@ -43,7 +41,7 @@ const AddFoodModal = () => {
         </Modal.Header>
         {error && <Message variant='danger'>{error}</Message>}
         {loading && <Loader />}
-        <Form onSubmit={addFoodHandler}>
+        <Form onSubmit={editFoodHandler}>
           <Modal.Body>
             <Form.Group controlId='name'>
               <Form.Label>Name</Form.Label>
@@ -54,7 +52,7 @@ const AddFoodModal = () => {
                 onChange={(e) => setName(e.target.value)}
               ></Form.Control>
 
-              <Form.Label>Price ($)</Form.Label>
+              <Form.Label>Price</Form.Label>
               <Form.Control
                 type='number'
                 min='0.00'
@@ -66,8 +64,8 @@ const AddFoodModal = () => {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button type='submit' variant='primary'>
-              Confirm
+            <Button type='submit' variant='warning'>
+              Modify
             </Button>
           </Modal.Footer>
         </Form>
@@ -76,4 +74,4 @@ const AddFoodModal = () => {
   );
 };
 
-export default AddFoodModal;
+export default EditFoodModal;

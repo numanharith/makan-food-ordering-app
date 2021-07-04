@@ -1,8 +1,5 @@
 import asyncHandler from 'express-async-handler';
 import generateJWT from '../utils/generateJWT.js';
-// import express from 'express';
-// import bcrypt from 'bcryptjs';
-// import auth from '../middleware/auth';
 
 // Restaurant Model
 import Restaurant from '../models/restaurant.js';

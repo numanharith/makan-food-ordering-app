@@ -11,6 +11,9 @@ import {
   FOOD_ADD_SUCCESS,
   FOOD_ADD_FAIL,
   FOOD_ADD_REQUEST,
+  FOOD_EDIT_REQUEST,
+  FOOD_EDIT_SUCCESS,
+  FOOD_EDIT_FAIL,
 } from '../constants/foodConstants';
 import axios from 'axios';
 
@@ -66,7 +69,7 @@ export const deleteFood = (foodId) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`/api/foods/delete/${foodId}`, config);
+    await axios.delete(`/api/foods/${foodId}`, config);
 
     dispatch({
       type: FOOD_DELETE_SUCCESS,
@@ -105,6 +108,37 @@ export const addFood = (name, price) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: FOOD_ADD_FAIL,
+      payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+    });
+  }
+};
+
+export const editFood = (food) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: FOOD_EDIT_REQUEST,
+    });
+
+    const {
+      restaurantUserLogin: { restaurantUserInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${restaurantUserInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/api/foods/${food._id}`, food, config);
+
+    dispatch({
+      type: FOOD_EDIT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: FOOD_EDIT_FAIL,
       payload: error.response && error.response.data.message ? error.response.data.message : error.message,
     });
   }

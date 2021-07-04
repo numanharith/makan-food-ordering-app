@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
@@ -18,16 +19,14 @@ const Header = () => {
   return (
     <Navbar bg='light' expand='lg' collapseOnSelect>
       <Container>
-        <LinkContainer to='/'>
-          <Navbar.Brand>Makan</Navbar.Brand>
-        </LinkContainer>
+        <Navbar.Brand>Makan</Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='me-auto'>
-            <LinkContainer to='/'>
+            <LinkContainer exact to='/'>
               <Nav.Link>Home</Nav.Link>
             </LinkContainer>
-            <LinkContainer to='/mymenu'>
+            <LinkContainer exact to='/mymenu'>
               <Nav.Link>Menu</Nav.Link>
             </LinkContainer>
             {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
@@ -44,20 +43,28 @@ const Header = () => {
                 <i className='fas fa-shopping-cart'></i> Cart
               </Nav.Link>
             </LinkContainer>
-            {restaurantUserInfo ? (
+            {restaurantUserInfo &&
               <NavDropdown title={restaurantUserInfo.name} id='username'>
                 <LinkContainer to='/account'>
                   <NavDropdown.Item>Account</NavDropdown.Item>
                 </LinkContainer>
                 <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
               </NavDropdown>
-            ) : (
-              <LinkContainer to='/restaurant/login'>
-                <Nav.Link>
-                  <i class='fas fa-store'></i> Login as restaurant
-                </Nav.Link>
-              </LinkContainer>
-            )}
+            }
+            {!restaurantUserInfo &&
+              <Fragment>
+                <LinkContainer to='/restaurant/login'>
+                  <Nav.Link>
+                    <i className='fas fa-store'></i> Login as Restaurant
+                  </Nav.Link>
+                </LinkContainer>
+                <LinkContainer to='/customer/login'>
+                  <Nav.Link>
+                    <i className='fas fa-store'></i> Login as Customer
+                  </Nav.Link>
+                </LinkContainer>
+              </Fragment>
+            }
           </Nav>
         </Navbar.Collapse>
       </Container>

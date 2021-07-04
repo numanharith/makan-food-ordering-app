@@ -17,7 +17,7 @@ restaurantSchema.methods.matchPassword = async function (enteredPassword) {
 // Encrypts password during registration
 restaurantSchema.pre('save', async function (next) {
   // Checks if PW is modified during update
-  if(!this.isModified('password')) {
+  if (!this.isModified('password')) {
     next();
   }
 

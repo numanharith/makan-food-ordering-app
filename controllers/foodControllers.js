@@ -57,3 +57,18 @@ export const addFood = asyncHandler(async (req, res) => {
     throw new Error('New food failed to be added!');
   }
 });
+
+// @route   PUT api/foods/:foodId/edit
+// @desc    Edit a food
+// @access  Private
+export const editFood = asyncHandler(async (req, res) => {
+  const { name, price } = req.body;
+
+  const food = await Food.findByIdAndUpdate(req.params.foodId, { name, price });
+  if (food) {
+    res.json({ message: 'The food has been added.' });
+  } else {
+    res.status(400);
+    throw new Error('Food failed to be edited!');
+  }
+});

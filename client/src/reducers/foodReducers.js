@@ -11,6 +11,10 @@ import {
   FOOD_ADD_REQUEST,
   FOOD_ADD_SUCCESS,
   FOOD_ADD_FAIL,
+  FOOD_EDIT_REQUEST,
+  FOOD_EDIT_SUCCESS,
+  FOOD_EDIT_FAIL,
+  FOOD_EDIT_RESET,
 } from '../constants/foodConstants';
 
 export const foodListReducer = (state = { foods: [] }, action) => {
@@ -60,6 +64,21 @@ export const foodAddReducer = (state = { food: {} }, action) => {
       return { loading: false, success: true };
     case FOOD_ADD_FAIL:
       return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const foodEditReducer = (state = { food: {} }, action) => {
+  switch (action.type) {
+    case FOOD_EDIT_REQUEST:
+      return { loading: true };
+    case FOOD_EDIT_SUCCESS:
+      return { loading: false, success: true, food: action.payload };
+    case FOOD_EDIT_FAIL:
+      return { loading: false, error: action.payload };
+    case FOOD_EDIT_RESET:
+      return { food: {} };
     default:
       return state;
   }

@@ -1,13 +1,14 @@
 import { Fragment, useEffect } from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
+// import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { listFoods, deleteFood, addFood } from '../actions/foodActions';
+import { listFoods, deleteFood } from '../actions/foodActions';
 
 // Components
 import Message from './Message';
 import Loader from './Loader';
-import AddFoodModal from './AddFoodModal'
+import AddFoodModal from './AddFoodModal';
+import EditFoodModal from './EditFoodModal';
 
 const FoodListPage = ({ history, match }) => {
   const dispatch = useDispatch();
@@ -24,13 +25,16 @@ const FoodListPage = ({ history, match }) => {
   const foodAdd = useSelector((state) => state.foodAdd);
   const { success: successAdd } = foodAdd;
 
+  const foodEdit = useSelector((state) => state.foodEdit);
+  const { success: successEdit } = foodEdit;
+
   useEffect(() => {
     if (restaurantUserInfo) {
       dispatch(listFoods());
     } else {
       history.push('/restaurant/login');
     }
-  }, [dispatch, history, restaurantUserInfo, successDelete, successAdd]);
+  }, [dispatch, history, restaurantUserInfo, successDelete, successAdd, successEdit]);
 
   const deleteHandler = (foodId) => {
     if (window.confirm('Confirm delete?')) {
@@ -70,11 +74,7 @@ const FoodListPage = ({ history, match }) => {
                 <td>{food.name}</td>
                 <td>${food.price}</td>
                 <td>
-                  <LinkContainer to={`/foods/${food._id}/edit`}>
-                    <Button variant='light' className='btn-sm'>
-                      <i className='fas fa-edit'></i>
-                    </Button>
-                  </LinkContainer>
+                  <EditFoodModal food={food} />
                   <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(food._id)}>
                     <i className='fas fa-trash'></i>
                   </Button>

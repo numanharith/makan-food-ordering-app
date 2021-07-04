@@ -6,7 +6,7 @@ dotenv.config();
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import foodRoutes from './routes/foodRoutes.js';
 import restaurantRoutes from './routes/restaurantRoutes.js';
-// import restaurantAuthRoutes from './routers/restaurantAuthRoutes.js'
+import customerRoutes from './routes/customerRoutes.js';
 
 const app = express();
 
@@ -22,7 +22,7 @@ mongoose
 // Routes
 app.use('/api/foods', foodRoutes);
 app.use('/api/restaurants', restaurantRoutes);
-// app.use('/api/restaurantAuth', 'restaurantAuthRoutes');
+app.use('/api/customers', customerRoutes);
 app.use(notFound)
 app.use(errorHandler)
 

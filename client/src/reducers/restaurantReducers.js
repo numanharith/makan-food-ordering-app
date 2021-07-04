@@ -8,7 +8,7 @@ import {
   RESTAURANT_USER_REG_FAIL,
 } from '../constants/restaurantConstants';
 
-export const restaurantUserLoginReducer = (state = { foods: [] }, action) => {
+export const restaurantUserLoginReducer = (state = {}, action) => {
   switch (action.type) {
     case RESTAURANT_USER_LOGIN_REQUEST:
       return { loading: true };
@@ -23,7 +23,7 @@ export const restaurantUserLoginReducer = (state = { foods: [] }, action) => {
   }
 };
 
-export const restaurantUserRegReducer = (state = { foods: [] }, action) => {
+export const restaurantUserRegReducer = (state = {}, action) => {
   switch (action.type) {
     case RESTAURANT_USER_REG_REQUEST:
       return { loading: true };

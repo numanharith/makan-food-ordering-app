@@ -44,7 +44,9 @@ const RestaurantLoginPage = ({ location, history }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           ></Form.Control>
+        </Form.Group>
 
+        <Form.Group controlId='password'>
           <Form.Label>Password</Form.Label>
           <Form.Control
             type='password'

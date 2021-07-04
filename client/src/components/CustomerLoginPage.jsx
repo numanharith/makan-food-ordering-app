@@ -2,49 +2,41 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { restaurantReg } from '../actions/restaurantUserActions';
+import { customerLoginAction } from '../actions/customerActions';
 // Components
 import FormContainer from './FormContainer';
 import Message from './Message';
 import Loader from './Loader';
 
-const RestaurantRegPage = ({ location, history }) => {
+const CustomerLoginPage = ({ location, history }) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState(null);
-  const [logo, setLogo] = useState('');
 
   const dispatch = useDispatch();
-  const restaurantUserReg = useSelector((state) => state.restaurantUserReg);
-  const { loading, error, restaurantUserInfo } = restaurantUserReg;
+  const customerLogin = useSelector((state) => state.customerLogin);
+  const { loading, error, customerInfo } = customerLogin;
 
   const redirect = location.search ? location.search.split('=')[1] : '/';
 
   useEffect(() => {
     // Redirects user from this page if they're already logged in
-    if (restaurantUserInfo) {
+    if (customerInfo) {
       history.push(redirect);
     }
-  }, [history, restaurantUserInfo, redirect]);
+  }, [history, customerInfo, redirect]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      setMessage('Passwords do not match!')
-    } else {
-      dispatch(restaurantReg(name, password, logo));
-    }
+    dispatch(customerLoginAction(name, password));
   };
 
   return (
     <FormContainer>
-      <h1>REGISTER AS RESTAURANT</h1>
-      {message && <Message variant='danger'>{message}</Message>}
+      <h1>LOG IN AS RESTAURANT</h1>
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
-        <Form.Group>
+        <Form.Group controlId='name'>
           <Form.Label>Name</Form.Label>
           <Form.Control
             type='text'
@@ -60,36 +52,20 @@ const RestaurantRegPage = ({ location, history }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
-
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Confirm Password'
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          ></Form.Control>
-
-          <Form.Label>Logo</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Logo'
-            value={logo}
-            onChange={(e) => setLogo(e.target.value)}
-          ></Form.Control>
         </Form.Group>
 
         <Button type='submit' variant='primary'>
-          Register
+          Login
         </Button>
       </Form>
 
       <Row className='py-3'>
         <Col>
-          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>Login to existing restaurant account</Link>
+          <Link to='/customer/reg'>Create a new customer account</Link>
         </Col>
       </Row>
     </FormContainer>
   );
 };
 
-export default RestaurantRegPage;
+export default CustomerLoginPage;
