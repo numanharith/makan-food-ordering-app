@@ -7,50 +7,38 @@ import generateJWT from '../utils/generateJWT.js'
 // Restaurant Model
 import Restaurant from '../models/restaurant.js';
 
-// @route   POST /api/restaurantAuth/register
+// @route   POST /api/restaurants/reg
 // @desc    Restaurant registers for a new account
 // @access  Public
-// router.post('/register', (req, res) => {
-//   const { name, password, logo } = req.body;
+export const restaurantUserReg = asyncHandler(async (req, res) => {
+  const { name, password, logo } = req.body;
 
-//   // Validate inputs
-//   if (!name || !password) {
-//     return res.status(400).json({ msg: 'Please enter all the fields!' });
-//   }
+  // Checks for existing restaurant in DB
+  const existingRestaurant = await Restaurant.findOne({ name });
+  
+  if(existingRestaurant) {
+    res.status(400)
+    throw new Error('Name is already in use!')
+  }
 
-//   // Check for existing restaurant name
-//   Restaurant.findOne({ name }).then((restaurant) => {
-//     // Returns error if restaurant with the name has already exist
-//     if (restaurant) return res.status(400).json({ msg: 'The name is already in use!' });
-
-//     // Creates new restaurant
-//     const newRestaurant = new Restaurant({ name, password, logo });
-
-//     // Encrypts password
-//     bcrypt.genSalt(10, (err, salt) => {
-//       bcrypt.hash(newRestaurant.password, salt, (err, hashedPW) => {
-//         if (err) throw err;
-//         // Overwrites password with hashed password
-//         newRestaurant.password = hashedPW;
-//         // Saves restaurant to DB
-//         newRestaurant.save().then((restaurant) => {
-//           jwt.sign({ restaurantId: restaurant.id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
-//             if (err) throw err;
-//             res.json({
-//               token,
-//               restaurantUser: { id: restaurant.id, name: restaurant.name, logo: restaurant.logo },
-//             });
-//           });
-//         });
-//       });
-//     });
-//   });
-// });
+  const restaurant = await Restaurant.create({ name, password, logo }) 
+  if (restaurant) {
+    res.status(201).json({
+      _id: restaurant._id,
+      name: restaurant.name,
+      logo: restaurant.logo,
+      token: generateJWT(restaurant._id) // inserts restaurant id into JWT
+    })
+  } else {
+    res.status(400)
+    throw new Error('Account registration failed!')
+  }
+});
 
 // @route   POST /api/restaurants/login
 // @desc    Restaurant logs in to account and gets token
 // @access  Public
-export const restaurantLogin = asyncHandler(async (req, res) => {
+export const restaurantUserLogin = asyncHandler(async (req, res) => {
   const { name, password } = req.body;
 
   // Checks for existing restaurant in DB
@@ -61,7 +49,7 @@ export const restaurantLogin = asyncHandler(async (req, res) => {
       _id: restaurant._id,
       name: restaurant.name,
       logo: restaurant.logo,
-      token: generateJWT(restaurant._id),
+      token: generateJWT(restaurant._id), // inserts restaurant id into JWT
     });
   } else {
     res.status(401);
@@ -69,11 +57,20 @@ export const restaurantLogin = asyncHandler(async (req, res) => {
   }
 });
 
-// @route   GET /api/restaurantAuth/restaurant
-// @desc    Get restaurant data
+// @route   GET /api/restaurants/myprofile
+// @desc    Get restaurant user's profile
 // @access  Private
-// router.get('/restaurant', auth, (req, res) => {
-//   User.findById(req.user.id)
-//     .select('-password')
-//     .then((restaurant) => res.json(restaurant));
-// });
+export const getRestaurantUserProfile = asyncHandler(async (req, res) => {
+  const restaurantUser = await Restaurant.findById(req.restaurant._id)
+
+  if(restaurantUser) {
+    res.json({
+      _id: restaurantUser._id,
+      name: restaurantUser.name,
+      logo: restaurantUser.logo
+    })
+  } else {
+    res.status(404)
+    throw new Error('Restaurant account not found!')
+  }
+});
