@@ -7,6 +7,9 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import HomePage from './components/HomePage'
 import FoodPage from './components/FoodPage'
+import RestaurantLoginPage from './components/RestaurantLoginPage'
+import RestaurantRegPage from './components/RestaurantRegPage'
+import FoodListPage from './components/FoodListPage'
 
 const App = () => {
   return (
@@ -14,8 +17,11 @@ const App = () => {
       <Header />
       <main className='py-3'>
         <Container>
-          <Route path='/' component={HomePage} exact/>
+          <Route path='/restaurant/login' component={RestaurantLoginPage} />
+          <Route path='/restaurant/reg' component={RestaurantRegPage} />
           <Route path='/foods/:foodId' component={FoodPage} />
+          <Route path='/mymenu' component={FoodListPage} />
+          <Route path='/' component={HomePage} exact/>
         </Container>
       </main>
       <Footer />

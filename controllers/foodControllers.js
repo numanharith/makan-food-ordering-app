@@ -9,10 +9,10 @@ import Food from '../models/food.js';
 export const getFoods = asyncHandler(async (req, res) => {
   const foods = await Food.find();
   if (foods) {
-    res.json(foods)
+    res.json(foods);
   } else {
-    res.status(404)
-    throw new Error('Failed to load.')
+    res.status(404);
+    throw new Error('Failed to load.');
   }
 });
 
@@ -22,10 +22,10 @@ export const getFoods = asyncHandler(async (req, res) => {
 export const getFoodById = asyncHandler(async (req, res) => {
   const food = await Food.findById(req.params.foodId);
   if (food) {
-    res.json(food)
+    res.json(food);
   } else {
-    res.status(404)
-    throw new Error('Food not found.')
+    res.status(404);
+    throw new Error('Food not found.');
   }
 });
 
@@ -46,9 +46,14 @@ export const addFood = (req, res) => {
 
 // @route   DELETE api/food/delete/foodId
 // @desc    Delete a food
-// @access  Public
-export const deleteFood = (req, res) => {
-  Food.findByIdAndDelete(req.params.foodId)
-    .then(() => res.json({ success: true }))
-    .catch((err) => res.status(404).json({ success: false }));
-};
+// @access  Private
+export const deleteFood = asyncHandler(async (req, res) => {
+  const food = Food.findById(req.params.foodId);
+  if (food) {
+    await food.remove();
+    res.json({ message: 'The food has been deleted.' });
+  } else {
+    res.status(404);
+    throw new Error('The selected food is not found!');
+  }
+});

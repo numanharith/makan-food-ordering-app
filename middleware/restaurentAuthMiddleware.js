@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
 import Restaurant from '../models/restaurant.js';
 
-export const privateRoute = asyncHandler(async (req, res, next) => {
+export const restaurantPrivateRoute = asyncHandler(async (req, res, next) => {
   let token;
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     try {

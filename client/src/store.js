@@ -2,13 +2,15 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 // Reducers
-import { foodListReducer, foodDetailsReducer } from './reducers/foodReducers';
-import { restaurantUserLoginReducer } from './reducers/restaurantReducers';
+import { foodListReducer, foodDetailsReducer, foodDeleteReducer } from './reducers/foodReducers';
+import { restaurantUserLoginReducer, restaurantUserRegReducer } from './reducers/restaurantReducers';
 
 const reducer = combineReducers({
   foodList: foodListReducer,
   foodDetails: foodDetailsReducer,
+  foodDelete: foodDeleteReducer,
   restaurantUserLogin: restaurantUserLoginReducer,
+  restaurantUserReg: restaurantUserRegReducer,
 });
 
 const restaurantUserInfoFromStorage = localStorage.getItem('restaurantUserInfo')

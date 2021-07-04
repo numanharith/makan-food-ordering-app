@@ -2,19 +2,22 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { restaurantLogin } from '../actions/restaurantUserActions';
+import { restaurantReg } from '../actions/restaurantUserActions';
 // Components
 import FormContainer from './FormContainer';
 import Message from './Message';
 import Loader from './Loader';
 
-const RestaurantLoginPage = ({ location, history }) => {
+const RestaurantRegPage = ({ location, history }) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [message, setMessage] = useState(null);
+  const [logo, setLogo] = useState('');
 
   const dispatch = useDispatch();
-  const restaurantUserLogin = useSelector((state) => state.restaurantUserLogin);
-  const { loading, error, restaurantUserInfo } = restaurantUserLogin;
+  const restaurantUserReg = useSelector((state) => state.restaurantUserReg);
+  const { loading, error, restaurantUserInfo } = restaurantUserReg;
 
   const redirect = location.search ? location.search.split('=')[1] : '/';
 
@@ -27,12 +30,17 @@ const RestaurantLoginPage = ({ location, history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(restaurantLogin(name, password));
+    if (password !== confirmPassword) {
+      setMessage('Passwords do not match!')
+    } else {
+      dispatch(restaurantReg(name, password, logo));
+    }
   };
 
   return (
     <FormContainer>
-      <h1>LOG IN AS RESTAURANT</h1>
+      <h1>REGISTER AS RESTAURANT</h1>
+      {message && <Message variant='danger'>{message}</Message>}
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
@@ -52,20 +60,36 @@ const RestaurantLoginPage = ({ location, history }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
+
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control
+            type='password'
+            placeholder='Confirm Password'
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          ></Form.Control>
+
+          <Form.Label>Logo</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Logo'
+            value={logo}
+            onChange={(e) => setLogo(e.target.value)}
+          ></Form.Control>
         </Form.Group>
 
         <Button type='submit' variant='primary'>
-          Login
+          Register
         </Button>
       </Form>
 
       <Row className='py-3'>
         <Col>
-          <Link to='/restaurant/reg'>Create a new restaurant account</Link>
+          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>Login to existing restaurant account</Link>
         </Col>
       </Row>
     </FormContainer>
   );
 };
 
-export default RestaurantLoginPage;
+export default RestaurantRegPage;
