@@ -7,12 +7,14 @@ import { restaurantReg } from '../actions/restaurantUserActions';
 import FormContainer from './FormContainer';
 import Message from './Message';
 import Loader from './Loader';
+import axios from 'axios';
 
 const RestaurantRegPage = ({ location, history }) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState(null);
+  const [image, setImage] = useState('');
   const [logo, setLogo] = useState('');
 
   const dispatch = useDispatch();
@@ -27,13 +29,24 @@ const RestaurantRegPage = ({ location, history }) => {
       history.push(redirect);
     }
   }, [history, restaurantUserInfo, redirect]);
-
-  const submitHandler = (e) => {
+  
+  const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setMessage('Passwords do not match!')
     } else {
-      dispatch(restaurantReg(name, password, logo));
+      try {
+        const data = new FormData();
+        data.append('file', image);
+        data.append('upload_preset', 'dpcju0f7');
+        data.append('cloud_name', 'dxnyuudyt');
+        
+        const res = await axios.post('https://api.cloudinary.com/v1_1/dxnyuudyt/image/upload', data)
+        setLogo(res.data.secure_url);
+        dispatch(restaurantReg(name, password, logo));
+      } catch (err) {
+        console.error(err);
+      }
     }
   };
 
@@ -75,15 +88,9 @@ const RestaurantRegPage = ({ location, history }) => {
           </Form.Group>
 
           <Form.Group controlId='logo'>
-            <Form.Label>Logo</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Logo'
-              value={logo}
-              onChange={(e) => setLogo(e.target.value)}
-            ></Form.Control>
+              <Form.Label>Logo</Form.Label>
+              <Form.File required onChange={(e) => setImage(e.target.files[0])}></Form.File>
           </Form.Group>
-
         <Button type='submit' variant='primary'>
           Register
         </Button>

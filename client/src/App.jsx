@@ -1,5 +1,5 @@
 import { Container } from 'react-bootstrap'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import './App.css'
 
 // Components
@@ -20,13 +20,16 @@ const App = () => {
       <Header />
       <main className='py-3'>
         <Container>
-          <Route path='/restaurant/login' component={RestaurantLoginPage} />
-          <Route path='/restaurant/reg' component={RestaurantRegPage} />
-          <Route path='/customer/login' component={CustomerLoginPage} />
-          <Route path='/customer/reg' component={CustomerRegPage} />
-          <Route path='/foods/:foodId' component={FoodPage} />
-          <RestaurantPrivateRoute path='/mymenu' component={FoodListPage} />
-          <Route exact path='/' component={HomePage} />
+          <Switch>
+            <Route exact path='/' component={HomePage} />
+            <Route exact path='/restaurant/login' component={RestaurantLoginPage} />
+            <Route exact path='/restaurant/reg' component={RestaurantRegPage} />
+            <Route exact path='/customer/login' component={CustomerLoginPage} />
+            <Route exact path='/customer/reg' component={CustomerRegPage} />
+            <Route exact path='/foods/:foodId' component={FoodPage} />
+            <RestaurantPrivateRoute exact path='/mymenu' component={FoodListPage} />
+            {/* <Route path="/*" component={NotFound} status={404} /> */}
+          </Switch>
         </Container>
       </main>
       <Footer />
