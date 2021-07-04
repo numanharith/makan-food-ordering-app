@@ -1,28 +1,38 @@
-const express = require('express');
-const router = express.Router();
+import asyncHandler from 'express-async-handler';
 
-const Food = require('../models/Food');
+// Model
+import Food from '../models/food.js';
 
 // @route   GET api/foods
 // @desc    Get all food
 // @access  Public
-const getFoods = (req, res) => {
-  Food.find().then((foods) => res.json(foods));
-};
+export const getFoods = asyncHandler(async (req, res) => {
+  const foods = await Food.find();
+  if (foods) {
+    res.json(foods)
+  } else {
+    res.status(404)
+    throw new Error('Failed to load.')
+  }
+});
 
 // @route   GET api/foods/:foodId
 // @desc    Get a specific food with its id
 // @access  Public
-const getFoodById = (req, res) => {
-  Food.findById(req.params.foodId)
-    .then((food) => res.json(food))
-    .catch((error) => res.status(500).json({ msg: 'pukimak' }));
-};
+export const getFoodById = asyncHandler(async (req, res) => {
+  const food = await Food.findById(req.params.foodId);
+  if (food) {
+    res.json(food)
+  } else {
+    res.status(404)
+    throw new Error('Food not found.')
+  }
+});
 
 // @route   POST api/food/add
 // @desc    Add a food
 // @access  Public
-const addFood = (req, res) => {
+export const addFood = (req, res) => {
   // Creates a new food object
   const newFood = new Food({
     name: req.body.name,
@@ -37,10 +47,8 @@ const addFood = (req, res) => {
 // @route   DELETE api/food/delete/foodId
 // @desc    Delete a food
 // @access  Public
-const deleteFood = (req, res) => {
+export const deleteFood = (req, res) => {
   Food.findByIdAndDelete(req.params.foodId)
     .then(() => res.json({ success: true }))
     .catch((err) => res.status(404).json({ success: false }));
 };
-
-export { getFoods, getFoodById, addFood, deleteFood };

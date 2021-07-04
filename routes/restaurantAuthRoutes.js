@@ -1,10 +1,11 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const auth = require('../middleware/auth');
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import auth from '../middleware/auth';
+
 // Restaurant Model
-const Restaurant = require('../models/Restaurant');
+import Restaurant from '../models/Restaurant';
 
 // @route   POST /api/restaurantAuth/register
 // @desc    Restaurant registers for a new account
@@ -97,4 +98,5 @@ router.get('/restaurant', auth, (req, res) => {
     .select('-password')
     .then((restaurant) => res.json(restaurant));
 });
-module.exports = router;
+
+export default router;

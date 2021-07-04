@@ -1,23 +1,31 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-require('dotenv').config();
+import express from 'express';
+import mongoose from 'mongoose';
+// import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+dotenv.config();
+import { notFound, errorHandler } from './middleware/errorMiddleware.js'
+import foodRoutes from './routes/foodRoutes.js';
+import restaurantRoutes from './routes/restaurantRoutes.js';
+// import restaurantAuthRoutes from './routers/restaurantAuthRoutes.js'
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 // DB Config
-const db = process.env.MONGODB_URI ;
+const db = process.env.MONGODB_URI;
 mongoose
   .connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.log(err));
 
 // Routes
-app.use('/api/foods', require('./routers/foodRoutes'));
-app.use('/api/restaurant', require('./routers/restaurantRoutes'));
-app.use('/api/restaurantAuth', require('./routers/restaurantAuthRoutes'));
+app.use('/api/foods', foodRoutes);
+app.use('/api/restaurants', restaurantRoutes);
+// app.use('/api/restaurantAuth', 'restaurantAuthRoutes');
+app.use(notFound)
+app.use(errorHandler)
+
 
 const port = process.env.PORT || 5000;
 

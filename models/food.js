@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
 // Create Schema
@@ -8,4 +8,6 @@ const foodSchema = new Schema({
   picture: { type: String },
 });
 
-module.exports = model('Food', foodSchema);
+const Food = model('Food', foodSchema);
+
+export default Food;
