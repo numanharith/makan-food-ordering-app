@@ -51,7 +51,9 @@ const EditFoodModal = ({ food }) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               ></Form.Control>
+            </Form.Group>
 
+            <Form.Group controlId='price'>
               <Form.Label>Price</Form.Label>
               <Form.Control
                 type='number'

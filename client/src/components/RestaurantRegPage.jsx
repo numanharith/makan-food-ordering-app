@@ -39,12 +39,12 @@ const RestaurantRegPage = ({ location, history }) => {
 
   return (
     <FormContainer>
-      <h1>REGISTER AS RESTAURANT</h1>
+      <h1>Register a Restaurant</h1>
       {message && <Message variant='danger'>{message}</Message>}
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
-        <Form.Group>
+        <Form.Group controlId='name'>
           <Form.Label>Name</Form.Label>
           <Form.Control
             type='text'
@@ -52,31 +52,37 @@ const RestaurantRegPage = ({ location, history }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           ></Form.Control>
-
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Enter password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></Form.Control>
-
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Confirm Password'
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          ></Form.Control>
-
-          <Form.Label>Logo</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Logo'
-            value={logo}
-            onChange={(e) => setLogo(e.target.value)}
-          ></Form.Control>
         </Form.Group>
+
+          <Form.Group controlId='password'>
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type='password'
+              placeholder='Enter password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+
+          <Form.Group controlId='confirmPassword'>
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              type='password'
+              placeholder='Confirm Password'
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+
+          <Form.Group controlId='logo'>
+            <Form.Label>Logo</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Logo'
+              value={logo}
+              onChange={(e) => setLogo(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
 
         <Button type='submit' variant='primary'>
           Register
@@ -85,7 +91,7 @@ const RestaurantRegPage = ({ location, history }) => {
 
       <Row className='py-3'>
         <Col>
-          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>Login to existing restaurant account</Link>
+          <Link to='/restaurant/login'>Login to an existing restaurant account</Link>
         </Col>
       </Row>
     </FormContainer>

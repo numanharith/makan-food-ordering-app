@@ -32,7 +32,7 @@ const CustomerLoginPage = ({ location, history }) => {
 
   return (
     <FormContainer>
-      <h1>LOG IN AS RESTAURANT</h1>
+      <h1>Login as Customer</h1>
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
@@ -44,7 +44,9 @@ const CustomerLoginPage = ({ location, history }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           ></Form.Control>
+        </Form.Group>
 
+        <Form.Group controlId='password'>
           <Form.Label>Password</Form.Label>
           <Form.Control
             type='password'

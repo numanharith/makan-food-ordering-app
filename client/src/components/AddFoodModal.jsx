@@ -10,7 +10,7 @@ import Loader from './Loader';
 const AddFoodModal = () => {
   const [show, setShow] = useState(false);
   const [name, setName] = useState('');
-  const [price, setPrice] = useState();
+  const [price, setPrice] = useState(0);
 
   const dispatch = useDispatch();
   const foodAdd = useSelector((state) => state.foodAdd);
@@ -28,8 +28,8 @@ const AddFoodModal = () => {
   const addFoodHandler = (e) => {
     e.preventDefault();
     dispatch(addFood(name, price));
-    setName('')
-    setPrice()
+    setName('');
+    setPrice(0);
   };
 
   return (
@@ -53,7 +53,9 @@ const AddFoodModal = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               ></Form.Control>
+            </Form.Group>
 
+            <Form.Group controlId='price'>
               <Form.Label>Price ($)</Form.Label>
               <Form.Control
                 type='number'

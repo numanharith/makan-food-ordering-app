@@ -30,7 +30,7 @@ const CustomerRegPage = ({ location, history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      setMessage('Passwords do not match!')
+      setMessage('Passwords do not match!');
     } else {
       dispatch(customerRegAction(name, password));
     }
@@ -38,7 +38,7 @@ const CustomerRegPage = ({ location, history }) => {
 
   return (
     <FormContainer>
-      <h1>REGISTER AS RESTAURANT</h1>
+      <h1>Register as Customer</h1>
       {message && <Message variant='danger'>{message}</Message>}
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
@@ -51,7 +51,9 @@ const CustomerRegPage = ({ location, history }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           ></Form.Control>
+        </Form.Group>
 
+        <Form.Group controlId='password'>
           <Form.Label>Password</Form.Label>
           <Form.Control
             type='password'
@@ -59,7 +61,9 @@ const CustomerRegPage = ({ location, history }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
+        </Form.Group>
 
+        <Form.Group controlId='confirmPassword'>
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type='password'
@@ -76,7 +80,7 @@ const CustomerRegPage = ({ location, history }) => {
 
       <Row className='py-3'>
         <Col>
-          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>Login to existing customer account</Link>
+          <Link to='/customer/login'>Login to existing customer account</Link>
         </Col>
       </Row>
     </FormContainer>

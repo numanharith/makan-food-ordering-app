@@ -45,7 +45,7 @@ const FoodListPage = ({ history, match }) => {
   return (
     <Fragment>
       <Row className='align-items-center'>
-        <Col className='col-auto me-auto'>
+        <Col className='col-auto mr-auto'>
           <h1>Food</h1>
         </Col>
         <Col className='col-auto'>

@@ -32,7 +32,7 @@ const RestaurantLoginPage = ({ location, history }) => {
 
   return (
     <FormContainer>
-      <h1>LOG IN AS RESTAURANT</h1>
+      <h1>Login as Restaurant</h1>
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>

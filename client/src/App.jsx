@@ -3,12 +3,15 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import './App.css'
 
 // Components
+import RestaurantPrivateRoute from './components/RestaurantPrivateRoute'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import HomePage from './components/HomePage'
 import FoodPage from './components/FoodPage'
 import RestaurantLoginPage from './components/RestaurantLoginPage'
 import RestaurantRegPage from './components/RestaurantRegPage'
+import CustomerLoginPage from './components/CustomerLoginPage'
+import CustomerRegPage from './components/CustomerRegPage'
 import FoodListPage from './components/FoodListPage'
 
 const App = () => {
@@ -19,9 +22,11 @@ const App = () => {
         <Container>
           <Route path='/restaurant/login' component={RestaurantLoginPage} />
           <Route path='/restaurant/reg' component={RestaurantRegPage} />
+          <Route path='/customer/login' component={CustomerLoginPage} />
+          <Route path='/customer/reg' component={CustomerRegPage} />
           <Route path='/foods/:foodId' component={FoodPage} />
-          <Route path='/mymenu' component={FoodListPage} />
-          <Route path='/' component={HomePage} exact/>
+          <RestaurantPrivateRoute path='/mymenu' component={FoodListPage} />
+          <Route exact path='/' component={HomePage} />
         </Container>
       </main>
       <Footer />
