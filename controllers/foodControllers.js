@@ -29,31 +29,31 @@ export const getFoodById = asyncHandler(async (req, res) => {
   }
 });
 
-// @route   POST api/food/add
-// @desc    Add a food
-// @access  Public
-export const addFood = (req, res) => {
-  // Creates a new food object
-  const newFood = new Food({
-    name: req.body.name,
-    price: req.body.price,
-    picture: req.body.picture,
-  });
-
-  // Adds created food to DB
-  newFood.save().then((item) => res.json(item));
-};
-
-// @route   DELETE api/food/delete/foodId
+// @route   DELETE api/foods/delete/foodId
 // @desc    Delete a food
 // @access  Private
 export const deleteFood = asyncHandler(async (req, res) => {
   const food = Food.findById(req.params.foodId);
   if (food) {
-    await food.remove();
+    await food.deleteOne();
     res.json({ message: 'The food has been deleted.' });
   } else {
     res.status(404);
     throw new Error('The selected food is not found!');
+  }
+});
+
+// @route   POST api/foods/add
+// @desc    Add a food
+// @access  Private
+export const addFood = asyncHandler(async (req, res) => {
+  const { name, price, image} = req.body;
+
+  const food = await Food.create({ name, price, image });
+  if (food) {
+    res.json({ message: 'The food has been added.' });
+  } else {
+    res.status(400);
+    throw new Error('New food failed to be added!');
   }
 });

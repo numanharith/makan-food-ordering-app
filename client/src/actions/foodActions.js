@@ -8,6 +8,9 @@ import {
   FOOD_DELETE_SUCCESS,
   FOOD_DELETE_FAIL,
   FOOD_DELETE_REQUEST,
+  FOOD_ADD_SUCCESS,
+  FOOD_ADD_FAIL,
+  FOOD_ADD_REQUEST,
 } from '../constants/foodConstants';
 import axios from 'axios';
 
@@ -71,6 +74,37 @@ export const deleteFood = (foodId) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: FOOD_DELETE_FAIL,
+      payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+    });
+  }
+};
+
+export const addFood = (name, price) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: FOOD_ADD_REQUEST,
+    });
+
+    const {
+      restaurantUserLogin: { restaurantUserInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${restaurantUserInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.post('/api/foods/add', { name, price }, config);
+
+    dispatch({
+      type: FOOD_ADD_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: FOOD_ADD_FAIL,
       payload: error.response && error.response.data.message ? error.response.data.message : error.message,
     });
   }

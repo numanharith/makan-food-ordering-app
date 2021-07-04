@@ -5,7 +5,7 @@ import { restaurantPrivateRoute } from '../middleware/restaurentAuthMiddleware.j
 
 router.route('/').get(getFoods);
 router.route('/:foodId').get(getFoodById);
-router.route('/add').post(addFood);
+router.route('/add').post(restaurantPrivateRoute, addFood);
 router.route('/delete/:foodId').delete(restaurantPrivateRoute, deleteFood); 
 
 export default router;

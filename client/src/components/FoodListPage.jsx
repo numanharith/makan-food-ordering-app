@@ -1,10 +1,13 @@
-import { useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { listFoods, deleteFood, addFood } from '../actions/foodActions';
+
+// Components
 import Message from './Message';
 import Loader from './Loader';
-import { listFoods, deleteFood } from '../actions/foodActions';
+import AddFoodModal from './AddFoodModal'
 
 const FoodListPage = ({ history, match }) => {
   const dispatch = useDispatch();
@@ -18,33 +21,31 @@ const FoodListPage = ({ history, match }) => {
   const foodDelete = useSelector((state) => state.foodDelete);
   const { loading: loadingDelete, error: errorDelete, success: successDelete } = foodDelete;
 
+  const foodAdd = useSelector((state) => state.foodAdd);
+  const { success: successAdd } = foodAdd;
+
   useEffect(() => {
     if (restaurantUserInfo) {
       dispatch(listFoods());
     } else {
       history.push('/restaurant/login');
     }
-  }, [dispatch, history, restaurantUserInfo, successDelete]);
+  }, [dispatch, history, restaurantUserInfo, successDelete, successAdd]);
 
   const deleteHandler = (foodId) => {
-    if (window.confirm('Are you sure')) {
+    if (window.confirm('Confirm delete?')) {
       dispatch(deleteFood(foodId));
     }
   };
 
-  const addFoodHandler = (food) => {
-    // Add food
-  };
   return (
-    <>
+    <Fragment>
       <Row className='align-items-center'>
         <Col className='col-auto me-auto'>
           <h1>Food</h1>
         </Col>
         <Col className='col-auto'>
-          <Button onClick={addFoodHandler}>
-            <i className='fas fa-plus'></i> Add food
-          </Button>
+          <AddFoodModal />
         </Col>
       </Row>
       {loadingDelete && <Loader />}
@@ -83,7 +84,7 @@ const FoodListPage = ({ history, match }) => {
           </tbody>
         </Table>
       )}
-    </>
+    </Fragment>
   );
 };
 

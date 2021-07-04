@@ -8,6 +8,9 @@ import {
   FOOD_DELETE_REQUEST,
   FOOD_DELETE_SUCCESS,
   FOOD_DELETE_FAIL,
+  FOOD_ADD_REQUEST,
+  FOOD_ADD_SUCCESS,
+  FOOD_ADD_FAIL,
 } from '../constants/foodConstants';
 
 export const foodListReducer = (state = { foods: [] }, action) => {
@@ -43,6 +46,19 @@ export const foodDeleteReducer = (state = { food: {} }, action) => {
     case FOOD_DELETE_SUCCESS:
       return { loading: false, success: true };
     case FOOD_DELETE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const foodAddReducer = (state = { food: {} }, action) => {
+  switch (action.type) {
+    case FOOD_ADD_REQUEST:
+      return { loading: true };
+    case FOOD_ADD_SUCCESS:
+      return { loading: false, success: true };
+    case FOOD_ADD_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
