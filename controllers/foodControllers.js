@@ -49,11 +49,22 @@ export const deleteFood = asyncHandler(async (req, res) => {
 export const addFood = asyncHandler(async (req, res) => {
   const { name, price, image} = req.body;
 
+  if (!name) {
+    res.status(400);
+    throw new Error('Please enter a name!');
+  } else if (!price) {
+    res.status(400);
+    throw new Error('Please enter a price!');
+  } else if (!image) {
+    res.status(400);
+    throw new Error('Please upload an image of the food!');
+  }
+
   const food = await Food.create({ name, price, image });
   if (food) {
     res.json({ message: 'The food has been added.' });
   } else {
-    res.status(400);
+    res.status(500);
     throw new Error('New food failed to be added!');
   }
 });
@@ -68,7 +79,7 @@ export const editFood = asyncHandler(async (req, res) => {
   if (food) {
     res.json({ message: 'The food has been added.' });
   } else {
-    res.status(400);
+    res.status(500);
     throw new Error('Food failed to be edited!');
   }
 });

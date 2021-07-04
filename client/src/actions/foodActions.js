@@ -82,7 +82,7 @@ export const deleteFood = (foodId) => async (dispatch, getState) => {
   }
 };
 
-export const addFood = (name, price) => async (dispatch, getState) => {
+export const addFood = (name, price, image) => async (dispatch, getState) => {
   try {
     dispatch({
       type: FOOD_ADD_REQUEST,
@@ -99,7 +99,7 @@ export const addFood = (name, price) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post('/api/foods/add', { name, price }, config);
+    const { data } = await axios.post('/api/foods/add', { name, price, image }, config);
 
     dispatch({
       type: FOOD_ADD_SUCCESS,
