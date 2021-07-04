@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 // import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 dotenv.config();
-import { notFound, errorHandler } from './middleware/errorMiddleware.js'
+import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import foodRoutes from './routes/foodRoutes.js';
 import restaurantRoutes from './routes/restaurantRoutes.js';
 import customerRoutes from './routes/customerRoutes.js';
@@ -23,9 +23,8 @@ mongoose
 app.use('/api/foods', foodRoutes);
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/customers', customerRoutes);
-app.use(notFound)
-app.use(errorHandler)
-
+app.use(notFound);
+app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
 

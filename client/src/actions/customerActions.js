@@ -10,7 +10,7 @@ import {
 } from '../constants/customerConstants';
 
 // Customer user logins
-export const customerLoginAction = (name, password) => async (dispatch) => {
+export const customerLoginAction = (email, password) => async (dispatch) => {
   try {
     dispatch({
       type: CUSTOMER_LOGIN_REQUEST,
@@ -22,7 +22,7 @@ export const customerLoginAction = (name, password) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.post('/api/customers/login', { name, password }, config);
+    const { data } = await axios.post('/api/customers/login', { email, password }, config);
     dispatch({
       type: CUSTOMER_LOGIN_SUCCESS,
       payload: data,
@@ -43,7 +43,7 @@ export const customerLogoutAction = () => (dispatch) => {
 };
 
 // Customer user registers
-export const customerRegAction = (name, password) => async (dispatch) => {
+export const customerRegAction = (email, password) => async (dispatch) => {
   try {
     dispatch({
       type: CUSTOMER_REG_REQUEST,
@@ -55,7 +55,7 @@ export const customerRegAction = (name, password) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.post('/api/customers/reg', { name, password }, config);
+    const { data } = await axios.post('/api/customers/reg', { email, password }, config);
     dispatch({
       type: CUSTOMER_REG_SUCCESS,
       payload: data,

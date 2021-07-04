@@ -8,29 +8,29 @@ import Customer from '../models/customer.js';
 // @desc    Customer registers for a new account
 // @access  Public
 export const customerReg = asyncHandler(async (req, res) => {
-  const { name, password } = req.body;
+  const { email, password } = req.body;
 
-  if (!name) {
+  if (!email) {
     res.status(400);
-    throw new Error('Please enter a name!');
+    throw new Error('Please enter an email!');
   } else if (!password) {
     res.status(400);
     throw new Error('Please enter a password!');
   }
 
   // Checks for existing customer in DB
-  const existingCustomer = await Customer.findOne({ name });
+  const existingCustomer = await Customer.findOne({ email });
 
   if (existingCustomer) {
     res.status(400);
-    throw new Error('Name is already in use!');
+    throw new Error('Email is already in use!');
   }
 
-  const customer = await Customer.create({ name, password });
+  const customer = await Customer.create({ email, password });
   if (customer) {
     res.status(201).json({
       _id: customer._id,
-      name: customer.name,
+      email: customer.email,
       token: generateJWT(customer._id), // inserts customer id into JWT
     });
   } else {
@@ -43,20 +43,19 @@ export const customerReg = asyncHandler(async (req, res) => {
 // @desc    Customer logs in to account and gets token
 // @access  Public
 export const customerLogin = asyncHandler(async (req, res) => {
-  const { name, password } = req.body;
+  const { email, password } = req.body;
 
   // Checks for existing customer in DB
-  const customer = await Customer.findOne({ name });
-
+  const customer = await Customer.findOne({ email });
   if (customer && (await customer.matchPassword(password))) {
     res.json({
       _id: customer._id,
-      name: customer.name,
+      email: customer.email,
       token: generateJWT(customer._id), // inserts customer id into JWT
     });
   } else {
     res.status(401);
-    throw new Error('Invalid name or password!');
+    throw new Error('Invalid email or password!');
   }
 });
 
@@ -69,7 +68,7 @@ export const getCustomerProfile = asyncHandler(async (req, res) => {
   if (customer) {
     res.json({
       _id: customer._id,
-      name: customer.name,
+      email: customer.email,
     });
   } else {
     res.status(404);

@@ -29,9 +29,15 @@ const restaurantUserInfoFromStorage = localStorage.getItem('restaurantUserInfo')
   ? JSON.parse(localStorage.getItem('restaurantUserInfo'))
   : null;
 
+const customerInfoFromStorage = localStorage.getItem('customerInfo')
+  ? JSON.parse(localStorage.getItem('customerInfo'))
+  : null;
+
 const initialState = {
   restaurantUserLogin: { restaurantUserInfo: restaurantUserInfoFromStorage },
+  customerLogin: { customerInfo: customerInfoFromStorage },
 };
+
 const middleware = [thunk];
 const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middleware)));
 

@@ -4,8 +4,8 @@ import bcrypt from 'bcryptjs';
 
 // Create Schema
 const customerSchema = new Schema({
-  username: { type: String, required: true, unique: true },
-  password: { type: Number, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
 });
 
 // Validates encrypted password

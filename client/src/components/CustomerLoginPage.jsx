@@ -9,7 +9,7 @@ import Message from './Message';
 import Loader from './Loader';
 
 const CustomerLoginPage = ({ location, history }) => {
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const CustomerLoginPage = ({ location, history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(customerLoginAction(name, password));
+    dispatch(customerLoginAction(email, password));
   };
 
   return (
@@ -36,13 +36,13 @@ const CustomerLoginPage = ({ location, history }) => {
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId='name'>
-          <Form.Label>Name</Form.Label>
+        <Form.Group controlId='email'>
+          <Form.Label>Email Address</Form.Label>
           <Form.Control
             type='text'
-            placeholder='Enter name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            placeholder='Enter email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
         </Form.Group>
 

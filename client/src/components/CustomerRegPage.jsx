@@ -9,7 +9,7 @@ import Message from './Message';
 import Loader from './Loader';
 
 const CustomerRegPage = ({ location, history }) => {
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState(null);
@@ -32,7 +32,7 @@ const CustomerRegPage = ({ location, history }) => {
     if (password !== confirmPassword) {
       setMessage('Passwords do not match!');
     } else {
-      dispatch(customerRegAction(name, password));
+      dispatch(customerRegAction(email, password));
     }
   };
 
@@ -43,13 +43,13 @@ const CustomerRegPage = ({ location, history }) => {
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId='name'>
-          <Form.Label>Name</Form.Label>
+        <Form.Group controlId='email'>
+          <Form.Label>Email Address</Form.Label>
           <Form.Control
-            type='text'
-            placeholder='Enter name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            type='email'
+            placeholder='Enter email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
         </Form.Group>
 
