@@ -53,7 +53,7 @@ const FoodListPage = ({ history, match }) => {
         </Col>
       </Row>
       {loadingDelete && <Loader />}
-      {errorDelete && <Message variant='danger'>errorDelete</Message>}
+      {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
       {loadingDelete && <Loader />}
       {loading ? (
         <Loader />

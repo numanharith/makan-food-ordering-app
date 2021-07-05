@@ -19,10 +19,14 @@ const CartPage = ({ match, location, history }) => {
   const customerLogin = useSelector((state) => state.customerLogin);
   const { customerInfo } = customerLogin;
 
+  const orderCreate = useSelector((state) => state.orderCreate);
+  const { error: orderCreateError } = orderCreate;
+
   useEffect(() => {
     if (foodId) {
       dispatch(addToCart(foodId, qty));
     }
+    // eslint-disable-next-line
   }, [dispatch, foodId, qty]);
 
   const removeFromCartHandler = (id) => {
@@ -30,9 +34,13 @@ const CartPage = ({ match, location, history }) => {
   };
 
   const checkoutHandler = (foodId) => {
-    // dispatch(createOrderAction({
-    //   orderItems: cartItems,
-    // }))
+    dispatch(
+      createOrderAction({
+        orderItems: cart.cartItems,
+        restaurant: cart.cartItems[0].restaurant,
+      })
+    );
+    history.push('/myorders');
   };
 
   const signInHandler = () => {
@@ -46,7 +54,7 @@ const CartPage = ({ match, location, history }) => {
         {error && <Message variant='danger'>{error}</Message>}
         {cartItems.length === 0 ? (
           <Message>
-            You have not added any orders to cart. <Link to='/foods'>Menu</Link>
+            You have not added any orders to cart. <Link to='/'>Menu</Link>
           </Message>
         ) : (
           <ListGroup variant='flush'>
@@ -106,6 +114,7 @@ const CartPage = ({ match, location, history }) => {
               </Row>
             </ListGroup.Item>
             <ListGroup.Item>
+              {orderCreateError && <Message variant='danger'>{orderCreateError}</Message>}
               {customerInfo ? (
                 <Button className='btn-block' disabled={cartItems.length === 0} onClick={checkoutHandler}>
                   Confirm order

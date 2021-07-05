@@ -20,7 +20,7 @@ import {
   MY_FOOD_LIST_FAIL,
   GET_PUBLIC_RESTAURANT_MENU_REQUEST,
   GET_PUBLIC_RESTAURANT_MENU_SUCCESS,
-  GET_PUBLIC_RESTAURANT_MENU_FAIL
+  GET_PUBLIC_RESTAURANT_MENU_FAIL,
 } from '../constants/foodConstants';
 
 export const foodListReducer = (state = { foods: [] }, action) => {

@@ -19,7 +19,7 @@ import {
 } from './reducers/restaurantReducers';
 import { customerLoginReducer, customerRegReducer } from './reducers/customerReducers';
 import { cartReducer } from './reducers/cartReduers';
-import { orderCreateReducer } from './reducers/orderReducers';
+import { changeOrderStatusReducer, customerGetsOrdersReducer, orderCreateReducer, restaurantGetsOrdersReducer } from './reducers/orderReducers';
 
 const reducer = combineReducers({
   foodList: foodListReducer,
@@ -35,7 +35,10 @@ const reducer = combineReducers({
   customerReg: customerRegReducer,
   customerLogin: customerLoginReducer,
   cart: cartReducer,
-  orderCreate: orderCreateReducer
+  orderCreate: orderCreateReducer,
+  customerGetsOrders: customerGetsOrdersReducer,
+  restaurantGetsOrders: restaurantGetsOrdersReducer,
+  changeOrderStatus: changeOrderStatusReducer,
 });
 
 const restaurantUserInfoFromStorage = localStorage.getItem('restaurantUserInfo')

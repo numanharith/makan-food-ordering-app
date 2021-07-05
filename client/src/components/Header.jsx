@@ -31,10 +31,10 @@ const Header = () => {
         <Navbar.Brand>MAKAN</Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
-          <Nav className='mr-auto'>
+          <Nav>
             {!restaurantUserInfo && (
               <Fragment>
-                <LinkContainer exact to='/foods'>
+                <LinkContainer exact to='/'>
                   <Nav.Link>Foods</Nav.Link>
                 </LinkContainer>
                 <LinkContainer exact to='/restaurants'>
@@ -59,23 +59,15 @@ const Header = () => {
                 </LinkContainer>
               </Fragment>
             )}
-          </Nav>
-          <Nav className='ml-auto'>
             {customerInfo && (
               <Fragment>
                 <NavDropdown title={customerInfo.email} id='email'>
-                  <LinkContainer to='/account'>
-                    <NavDropdown.Item>Account</NavDropdown.Item>
-                  </LinkContainer>
                   <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
                 </NavDropdown>
               </Fragment>
             )}
             {restaurantUserInfo && (
               <NavDropdown title={restaurantUserInfo.name} id='name'>
-                <LinkContainer to='/account'>
-                  <NavDropdown.Item>Account</NavDropdown.Item>
-                </LinkContainer>
                 <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
               </NavDropdown>
             )}

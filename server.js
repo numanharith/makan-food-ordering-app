@@ -1,6 +1,5 @@
 import express from 'express';
 import mongoose from 'mongoose';
-// import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 dotenv.config();
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
@@ -11,6 +10,7 @@ import orderRoutes from './routes/orderRoutes.js';
 
 const app = express();
 
+app.use(express.static(path.resolve(__dirname, 'build')));
 app.use(express.json());
 
 // DB Config
@@ -29,5 +29,9 @@ app.use(notFound);
 app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+});
 
 app.listen(port, () => console.log(`Server running on port ${port}`));

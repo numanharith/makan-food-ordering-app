@@ -16,7 +16,8 @@ import FoodListPage from './components/FoodListPage'
 import CartPage from './components/CartPage'
 import RestaurantsPage from './components/RestaurantsPage'
 import RestaurantMenuPage from './components/RestaurantMenuPage'
-import MyOrdersPage from './components/MyOrdersPage'
+import CustomerOrdersPage from './components/CustomerOrdersPage'
+import RestaurantOrdersPage from './components/RestaurantOrdersPage'
 
 const App = () => {
   return (
@@ -25,8 +26,9 @@ const App = () => {
       <main className='py-3'>
         <Container>
           <Switch>
-            <Route exact path='/foods' component={HomePage} />
-            <Route exact path='/myorders' component={MyOrdersPage} />
+            <Route exact path='/' component={HomePage} />
+            <Route exact path='/orders' component={RestaurantOrdersPage} />
+            <Route exact path='/myorders' component={CustomerOrdersPage} />
             <Route exact path='/restaurant/login' component={RestaurantLoginPage} />
             <Route exact path='/restaurant/reg' component={RestaurantRegPage} />
             <Route exact path='/restaurants/:restaurantId/menu' component={RestaurantMenuPage} />

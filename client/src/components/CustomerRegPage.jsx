@@ -21,7 +21,7 @@ const CustomerRegPage = ({ location, history }) => {
   const customerLogin = useSelector((state) => state.customerLogin);
   const { customerInfo: customerInfoLogin } = customerLogin;
 
-  const redirect = location.search ? location.search.split('=')[1] : '/foods';
+  const redirect = location.search ? location.search.split('=')[1] : '/';
 
   useEffect(() => {
     // Redirects customer from this page if they're already logged in
