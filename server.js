@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import path from 'path';
 dotenv.config();
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import foodRoutes from './routes/foodRoutes.js';
