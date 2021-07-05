@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { customerReg, customerLogin, getCustomerProfile } from '../controllers/customerControllers.js';
+import { customerReg, customerLogin, getCustomerProfile } from '../controllers/customerController.js';
 import { customerPrivateRoute } from '../middleware/customerAuthMiddleware.js'
 
 router.post('/reg', customerReg);

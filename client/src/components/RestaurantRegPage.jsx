@@ -15,13 +15,13 @@ const RestaurantRegPage = ({ location, history }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState(null);
   const [image, setImage] = useState('');
-  const [logo, setLogo] = useState('');
+  const [msg, setMsg] = useState('');
 
   const dispatch = useDispatch();
   const restaurantUserReg = useSelector((state) => state.restaurantUserReg);
   const { loading, error, restaurantUserInfo } = restaurantUserReg;
 
-  const redirect = location.search ? location.search.split('=')[1] : '/';
+  const redirect = location.search ? location.search.split('=')[1] : '/orders';
 
   useEffect(() => {
     // Redirects user from this page if they're already logged in
@@ -40,10 +40,10 @@ const RestaurantRegPage = ({ location, history }) => {
         data.append('file', image);
         data.append('upload_preset', 'dpcju0f7');
         data.append('cloud_name', 'dxnyuudyt');
-        
-        const res = await axios.post('https://api.cloudinary.com/v1_1/dxnyuudyt/image/upload', data)
-        setLogo(res.data.secure_url);
-        dispatch(restaurantReg(name, password, logo));
+        axios
+          .post('https://api.cloudinary.com/v1_1/dxnyuudyt/image/upload', data)
+          .then((res) => dispatch(restaurantReg(name, password, res.data.url)))
+          .catch((err) => setMsg('Image failed to upload'));
       } catch (err) {
         console.error(err);
       }
@@ -54,6 +54,7 @@ const RestaurantRegPage = ({ location, history }) => {
     <FormContainer>
       <h1>Register a Restaurant</h1>
       {message && <Message variant='danger'>{message}</Message>}
+      {msg && <Message variant='danger'>{msg}</Message>}
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>

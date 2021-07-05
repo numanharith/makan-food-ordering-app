@@ -9,20 +9,33 @@ import {
   foodDeleteReducer,
   foodAddReducer,
   foodEditReducer,
+  myFoodListReducer,
+  publicRestaurantMenuReducer,
 } from './reducers/foodReducers';
-import { restaurantUserLoginReducer, restaurantUserRegReducer } from './reducers/restaurantReducers';
+import {
+  getRestaurantsReducer,
+  restaurantUserLoginReducer,
+  restaurantUserRegReducer,
+} from './reducers/restaurantReducers';
 import { customerLoginReducer, customerRegReducer } from './reducers/customerReducers';
+import { cartReducer } from './reducers/cartReduers';
+import { orderCreateReducer } from './reducers/orderReducers';
 
 const reducer = combineReducers({
   foodList: foodListReducer,
+  myFoodList: myFoodListReducer,
   foodDetails: foodDetailsReducer,
   foodDelete: foodDeleteReducer,
   foodEdit: foodEditReducer,
   foodAdd: foodAddReducer,
   restaurantUserLogin: restaurantUserLoginReducer,
   restaurantUserReg: restaurantUserRegReducer,
+  restaurantList: getRestaurantsReducer,
+  publicRestaurantMenu: publicRestaurantMenuReducer,
   customerReg: customerRegReducer,
   customerLogin: customerLoginReducer,
+  cart: cartReducer,
+  orderCreate: orderCreateReducer
 });
 
 const restaurantUserInfoFromStorage = localStorage.getItem('restaurantUserInfo')
@@ -33,9 +46,12 @@ const customerInfoFromStorage = localStorage.getItem('customerInfo')
   ? JSON.parse(localStorage.getItem('customerInfo'))
   : null;
 
+const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
+
 const initialState = {
   restaurantUserLogin: { restaurantUserInfo: restaurantUserInfoFromStorage },
   customerLogin: { customerInfo: customerInfoFromStorage },
+  cart: { cartItems: cartItemsFromStorage },
 };
 
 const middleware = [thunk];

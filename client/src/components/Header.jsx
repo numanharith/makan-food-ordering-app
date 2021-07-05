@@ -28,35 +28,42 @@ const Header = () => {
   return (
     <Navbar bg='light' expand='lg' collapseOnSelect>
       <Container>
-        <Navbar.Brand>Makan</Navbar.Brand>
+        <Navbar.Brand>MAKAN</Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='mr-auto'>
-            <LinkContainer exact to='/'>
-              <Nav.Link>Home</Nav.Link>
-            </LinkContainer>
-            {restaurantUserInfo && (
-              <LinkContainer exact to='/mymenu'>
-                <Nav.Link>Menu</Nav.Link>
-              </LinkContainer>
+            {!restaurantUserInfo && (
+              <Fragment>
+                <LinkContainer exact to='/foods'>
+                  <Nav.Link>Foods</Nav.Link>
+                </LinkContainer>
+                <LinkContainer exact to='/restaurants'>
+                  <Nav.Link>Restaurants</Nav.Link>
+                </LinkContainer>
+              </Fragment>
             )}
-            {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-            <NavDropdown.Divider /> 
-            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-          </NavDropdown> */}
+            {customerInfo && (
+              <Fragment>
+                <LinkContainer exact to='/myorders'>
+                  <Nav.Link>My Orders</Nav.Link>
+                </LinkContainer>
+              </Fragment>
+            )}
+            {restaurantUserInfo && (
+              <Fragment>
+                <LinkContainer exact to='/orders'>
+                  <Nav.Link>Orders</Nav.Link>
+                </LinkContainer>
+                <LinkContainer exact to='/mymenu'>
+                  <Nav.Link>Menu</Nav.Link>
+                </LinkContainer>
+              </Fragment>
+            )}
           </Nav>
           <Nav className='ml-auto'>
             {customerInfo && (
               <Fragment>
-                <LinkContainer to='/cart'>
-                  <Nav.Link>
-                    <i className='fas fa-shopping-cart'></i> Cart
-                  </Nav.Link>
-                </LinkContainer>
-                <NavDropdown title={customerInfo.name} id='username'>
+                <NavDropdown title={customerInfo.email} id='email'>
                   <LinkContainer to='/account'>
                     <NavDropdown.Item>Account</NavDropdown.Item>
                   </LinkContainer>
@@ -65,7 +72,7 @@ const Header = () => {
               </Fragment>
             )}
             {restaurantUserInfo && (
-              <NavDropdown title={restaurantUserInfo.name} id='username'>
+              <NavDropdown title={restaurantUserInfo.name} id='name'>
                 <LinkContainer to='/account'>
                   <NavDropdown.Item>Account</NavDropdown.Item>
                 </LinkContainer>
@@ -85,6 +92,13 @@ const Header = () => {
                   </Nav.Link>
                 </LinkContainer>
               </Fragment>
+            )}
+            {!restaurantUserInfo && (
+              <LinkContainer to='/customer/cart'>
+                <Nav.Link>
+                  <i className='fas fa-shopping-cart'></i> Cart
+                </Nav.Link>
+              </LinkContainer>
             )}
           </Nav>
         </Navbar.Collapse>

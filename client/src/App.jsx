@@ -13,6 +13,10 @@ import RestaurantRegPage from './components/RestaurantRegPage'
 import CustomerLoginPage from './components/CustomerLoginPage'
 import CustomerRegPage from './components/CustomerRegPage'
 import FoodListPage from './components/FoodListPage'
+import CartPage from './components/CartPage'
+import RestaurantsPage from './components/RestaurantsPage'
+import RestaurantMenuPage from './components/RestaurantMenuPage'
+import MyOrdersPage from './components/MyOrdersPage'
 
 const App = () => {
   return (
@@ -21,11 +25,15 @@ const App = () => {
       <main className='py-3'>
         <Container>
           <Switch>
-            <Route exact path='/' component={HomePage} />
+            <Route exact path='/foods' component={HomePage} />
+            <Route exact path='/myorders' component={MyOrdersPage} />
             <Route exact path='/restaurant/login' component={RestaurantLoginPage} />
             <Route exact path='/restaurant/reg' component={RestaurantRegPage} />
+            <Route exact path='/restaurants/:restaurantId/menu' component={RestaurantMenuPage} />
+            <Route exact path='/restaurants' component={RestaurantsPage} />
             <Route exact path='/customer/login' component={CustomerLoginPage} />
             <Route exact path='/customer/reg' component={CustomerRegPage} />
+            <Route exact path='/customer/cart/:id?' component={CartPage} />
             <Route exact path='/foods/:foodId' component={FoodPage} />
             <RestaurantPrivateRoute exact path='/mymenu' component={FoodListPage} />
             {/* <Route path="/*" component={NotFound} status={404} /> */}

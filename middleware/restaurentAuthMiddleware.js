@@ -11,7 +11,6 @@ export const restaurantPrivateRoute = asyncHandler(async (req, res, next) => {
       req.restaurant = await Restaurant.findById(decoded.id).select('-password');
       next();
     } catch (error) {
-      console.error(error);
       res.status(401);
       throw new Error('Unauthorized, invalid token!');
     }

@@ -82,3 +82,17 @@ export const getRestaurantUserProfile = asyncHandler(async (req, res) => {
     throw new Error('Restaurant account not found!');
   }
 });
+
+// @route   GET /api/restaurants
+// @desc    Get all restaurants
+// @access  Public
+export const getRestaurants = asyncHandler(async (req, res) => {
+  const restaurants = await Restaurant.find().select('-password');
+
+  if (restaurants) {
+    res.json(restaurants);
+  } else {
+    res.status(500);
+    throw new Error('Failed to fetch restaurants.');
+  }
+});

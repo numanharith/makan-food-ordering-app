@@ -6,6 +6,7 @@ const foodSchema = new Schema({
   name: { type: String, required: true },
   price: { type: Number, required: true },
   image: { type: String },
+  restaurant: { type: Schema.Types.ObjectId, ref: 'Restaurant' }
 });
 
 const Food = model('Food', foodSchema);

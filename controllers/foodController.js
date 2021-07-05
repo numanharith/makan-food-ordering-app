@@ -16,6 +16,32 @@ export const getFoods = asyncHandler(async (req, res) => {
   }
 });
 
+// @route   GET api/foods/mymenu
+// @desc    Get all foods belonging to the restaurant user
+// @access  Private
+export const getMyFoods = asyncHandler(async (req, res) => {
+  const foods = await Food.find({ restaurant: req.restaurant._id });
+  if (foods) {
+    res.json(foods);
+  } else {
+    res.status(404);
+    throw new Error('Failed to load.');
+  }
+});
+
+// @route   GET api/foods/:restaurantId
+// @desc    Get menu of the restaurant
+// @access  Public
+export const getRestaurantMenu = asyncHandler(async (req, res) => {
+  const foods = await Food.find({ restaurant: req.params.restaurantId });
+  if (foods) {
+    res.json(foods);
+  } else {
+    res.status(404);
+    throw new Error('Failed to load.');
+  }
+});
+
 // @route   GET api/foods/:foodId
 // @desc    Get a specific food with its id
 // @access  Public
@@ -47,8 +73,8 @@ export const deleteFood = asyncHandler(async (req, res) => {
 // @desc    Add a food
 // @access  Private
 export const addFood = asyncHandler(async (req, res) => {
-  const { name, price, image} = req.body;
-
+  const { name, price, image } = req.body;
+  const restaurant = req.restaurant._id;
   if (!name) {
     res.status(400);
     throw new Error('Please enter a name!');
@@ -60,7 +86,7 @@ export const addFood = asyncHandler(async (req, res) => {
     throw new Error('Please upload an image of the food!');
   }
 
-  const food = await Food.create({ name, price, image });
+  const food = await Food.create({ name, price, image, restaurant });
   if (food) {
     res.json({ message: 'The food has been added.' });
   } else {

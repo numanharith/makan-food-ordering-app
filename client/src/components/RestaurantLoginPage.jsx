@@ -16,7 +16,7 @@ const RestaurantLoginPage = ({ location, history }) => {
   const restaurantUserLogin = useSelector((state) => state.restaurantUserLogin);
   const { loading, error, restaurantUserInfo } = restaurantUserLogin;
 
-  const redirect = location.search ? location.search.split('=')[1] : '/';
+  const redirect = location.search ? location.search.split('=')[1] : '/orders';
 
   useEffect(() => {
     // Redirects user from this page if they're already logged in

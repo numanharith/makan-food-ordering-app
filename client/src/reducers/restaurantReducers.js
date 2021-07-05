@@ -6,6 +6,9 @@ import {
   RESTAURANT_USER_REG_REQUEST,
   RESTAURANT_USER_REG_SUCCESS,
   RESTAURANT_USER_REG_FAIL,
+  GET_RESTAURANTS_REQUEST,
+  GET_RESTAURANTS_SUCCESS,
+  GET_RESTAURANTS_FAIL,
 } from '../constants/restaurantConstants';
 
 export const restaurantUserLoginReducer = (state = {}, action) => {
@@ -36,3 +39,15 @@ export const restaurantUserRegReducer = (state = {}, action) => {
   }
 };
 
+export const getRestaurantsReducer = (state = { restaurants: [] }, action) => {
+  switch (action.type) {
+    case GET_RESTAURANTS_REQUEST:
+      return { loading: true, restaurants: [] };
+    case GET_RESTAURANTS_SUCCESS:
+      return { loading: false, restaurants: action.payload };
+    case GET_RESTAURANTS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};

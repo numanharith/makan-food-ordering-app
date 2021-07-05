@@ -11,9 +11,9 @@ import Loader from './Loader';
 const AddFoodModal = () => {
   const [show, setShow] = useState(false);
   const [name, setName] = useState('');
-  const [price, setPrice] = useState(undefined);
+  const [price, setPrice] = useState(0.0);
   const [picture, setPicture] = useState('');
-  const [image, setImage] = useState('');
+  const [msg, setMsg] = useState('');
 
   const dispatch = useDispatch();
   const foodAdd = useSelector((state) => state.foodAdd);
@@ -30,20 +30,18 @@ const AddFoodModal = () => {
 
   const addFoodHandler = async (e) => {
     e.preventDefault();
-    try {
-      const data = new FormData();
-      data.append('file', picture);
-      data.append('upload_preset', 'dpcju0f7');
-      data.append('cloud_name', 'dxnyuudyt');
+    const data = new FormData();
+    data.append('file', picture);
+    data.append('upload_preset', 'dpcju0f7');
+    data.append('cloud_name', 'dxnyuudyt');
 
-      const res = await axios.post('https://api.cloudinary.com/v1_1/dxnyuudyt/image/upload', data);
-      await setImage(res.data.secure_url);
-      dispatch(addFood(name, price, image));
-      setName('');
-      setPrice(0);
-    } catch (err) {
-      console.error(err);
-    }
+    axios
+      .post('https://api.cloudinary.com/v1_1/dxnyuudyt/image/upload', data)
+      .then((res) => dispatch(addFood(name, price, res.data.url)))
+      .catch((err) => setMsg('Image failed to upload'));
+
+    setName('');
+    setPrice(0);
   };
 
   return (
@@ -55,6 +53,7 @@ const AddFoodModal = () => {
         <Modal.Header closeButton>
           <Modal.Title>Add food</Modal.Title>
         </Modal.Header>
+        {msg && <Message variant='danger'>{msg}</Message>}
         {error && <Message variant='danger'>{error}</Message>}
         {loading && <Loader />}
         <Form onSubmit={addFoodHandler}>

@@ -2,7 +2,7 @@ import { Fragment, useEffect } from 'react';
 // import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { listFoods, deleteFood } from '../actions/foodActions';
+import { listMyFoods, deleteFood } from '../actions/foodActions';
 
 // Components
 import Message from './Message';
@@ -13,8 +13,8 @@ import EditFoodModal from './EditFoodModal';
 const FoodListPage = ({ history, match }) => {
   const dispatch = useDispatch();
 
-  const foodList = useSelector((state) => state.foodList);
-  const { loading, error, foods } = foodList;
+  const myFoodList = useSelector((state) => state.myFoodList);
+  const { loading, error, foods } = myFoodList;
 
   const restaurantUserLogin = useSelector((state) => state.restaurantUserLogin);
   const { restaurantUserInfo } = restaurantUserLogin;
@@ -30,7 +30,7 @@ const FoodListPage = ({ history, match }) => {
 
   useEffect(() => {
     if (restaurantUserInfo) {
-      dispatch(listFoods());
+      dispatch(listMyFoods());
     } else {
       history.push('/restaurant/login');
     }

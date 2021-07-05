@@ -7,6 +7,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import foodRoutes from './routes/foodRoutes.js';
 import restaurantRoutes from './routes/restaurantRoutes.js';
 import customerRoutes from './routes/customerRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
 
 const app = express();
 
@@ -23,6 +24,7 @@ mongoose
 app.use('/api/foods', foodRoutes);
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/customers', customerRoutes);
+app.use('/api/orders', orderRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
