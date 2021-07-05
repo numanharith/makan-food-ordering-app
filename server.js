@@ -26,10 +26,9 @@ app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/orders', orderRoutes);
 
-const __dirname = path.resolve();
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '/client/build')));
-  app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html')));
+  app.use(express.static(path.join(__dirname, '/build')));
+  app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, 'build', 'index.html')));
 }
 
 app.use(notFound);
